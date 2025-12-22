@@ -110,3 +110,12 @@ button:hover {
   background: #a64fd4;
   transform: scale(1.05);
 }
+/* MainContent.css */
+.main-content {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f0e6ff;
+}
+
