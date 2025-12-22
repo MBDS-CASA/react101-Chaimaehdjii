@@ -118,4 +118,14 @@ button:hover {
   line-height: 1.6;
   color: #f0e6ff;
 }
+.note-card {
+  background-color: #2e2e2e;
+  color: #f0e6ff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
 
