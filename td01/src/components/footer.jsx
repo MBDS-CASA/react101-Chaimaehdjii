@@ -1,13 +1,9 @@
-import React from 'react';
-
-function Footer() {
-  const annee = new Date().getFullYear();
+function Footer({ year, prenom, nom }) {
   return (
     <footer className="footer">
-      <p>© {annee} - Chaimae.Haddaji, Tous droits réservés.</p>
+      © {year} - {prenom}.{nom}, Tous droits réservés.
     </footer>
   );
 }
 
 export default Footer;
-
