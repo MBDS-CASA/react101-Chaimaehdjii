@@ -1,42 +1,112 @@
+/* Conteneur principal */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espace entre contenu et footer */
+  background: linear-gradient(135deg, #1a1a1a, #2b0033); /* Noir + mauve */
+  color: #e0d4ff; /* Texte lavande clair */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Photo profil en haut à droite */
+.profile-photo {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #8e44ad; /* contour violet */
+  box-shadow: 0 4px 20px rgba(142, 68, 173, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(142, 68, 173, 0.8);
+}
+
+/* Header centré */
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.emsi-logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px #9b59b6);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Contenu principal */
+.main-content {
+  text-align: center;
+  margin: 50px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f0e6ff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
+/* Compteur ou cartes */
 .card {
-  padding: 2em;
+  margin-top: 20px;
+  padding: 2em 2.5em;
+  background: linear-gradient(145deg, #2b0033, #3e003f); /* Mauve sombre */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  color: #fff0ff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(142, 68, 173, 0.7);
+}
+
+/* Footer centré avec le contenu */
+.footer {
+  text-align: center;
+  padding: 20px 0;
+  background: linear-gradient(135deg, #1a1a1a, #2b0033);
+  font-weight: bold;
+  color: #d9b3ff;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+}
+
+/* Liens stylés */
+a {
+  color: #bb80ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+/* Boutons stylés */
+button {
+  background: #8e44ad;
+  color: #fff;
+  border: none;
+  padding: 0.7em 1.5em;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #a64fd4;
+  transform: scale(1.05);
 }
