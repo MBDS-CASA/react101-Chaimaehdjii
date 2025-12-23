@@ -5,7 +5,7 @@ import Footer from './components/footer';
 import NoteDetail from './components/NoteDetail';
 import MenuContent from './components/MenuContent';
 import { getRandomItem } from './utils/randomItem';
-import data from './data.json';
+import data from './data/data.json';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -84,7 +84,7 @@ function App() {
         <Header />
         <main className="main-content">
           {activeMenu ? (
-            <MenuContent activeMenu={activeMenu} />
+            <MenuContent activeMenu={activeMenu} data={data} />
           ) : (
             <>
               {/* Texte de TD02 */}
