@@ -10,11 +10,11 @@ import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Fade from '@mui/material/Fade';
+import { Routes, Route, Link } from 'react-router-dom';
 
 function App() {
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState(() => getRandomItem(data)); // Initialize with random note
   const [dateTime, setDateTime] = useState(new Date());
-  const [activeMenu, setActiveMenu] = useState(null);
 
   // Générer une note aléatoire
   const generateRandomNote = () => {
@@ -24,16 +24,11 @@ function App() {
 
   // Mettre à jour l'heure toutes les secondes
   useEffect(() => {
-    generateRandomNote(); // première note
     const timer = setInterval(() => {
       setDateTime(new Date());
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  const handleMenuClick = (item) => {
-    setActiveMenu(item);
-  };
 
   // Liste des éléments du menu
   const menuItems = ['Notes', 'Étudiants', 'Matières', 'À propos'];
@@ -69,13 +64,14 @@ function App() {
       <>
         <nav className="menu">
           <ul>
+            <li>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>Accueil</Link>
+            </li>
             {menuItems.map((item) => (
-              <li 
-                key={item} 
-                onClick={() => handleMenuClick(item)}
-                className={activeMenu === item ? 'active' : ''}
-              >
-                {item}
+              <li key={item}>
+                <Link to={`/${item.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  {item}
+                </Link>
               </li>
             ))}
           </ul>
@@ -89,24 +85,48 @@ function App() {
             Bonjour, on est le {jour}, {moisTexte}, {annee} et il est {heure}:{minute}:{seconde}
           </p>
 
-          {activeMenu ? (
-            <Fade in={!!activeMenu} timeout={500}>
-              <div>
-                <MenuContent activeMenu={activeMenu} data={data} />
-              </div>
-            </Fade>
-          ) : (
-            <Fade in={!activeMenu} timeout={500}>
-              <div>
-                {/* Note aléatoire */}
-                <h2>Note aléatoire :</h2>
-                <NoteDetail note={note} />
-                <button onClick={generateRandomNote} className="new-note-btn">
-                  Nouvelle note
-                </button>
-              </div>
-            </Fade>
-          )}
+          <Routes>
+            <Route path="/" element={
+              <Fade in={true} timeout={500}>
+                <div>
+                  {/* Note aléatoire */}
+                  <h2>Note aléatoire :</h2>
+                  <NoteDetail note={note} />
+                  <button onClick={generateRandomNote} className="new-note-btn">
+                    Nouvelle note
+                  </button>
+                </div>
+              </Fade>
+            } />
+            <Route path="/notes" element={
+              <Fade in={true} timeout={500}>
+                <div>
+                  <MenuContent activeMenu="Notes" data={data} />
+                </div>
+              </Fade>
+            } />
+            <Route path="/étudiants" element={
+              <Fade in={true} timeout={500}>
+                <div>
+                  <MenuContent activeMenu="Étudiants" data={data} />
+                </div>
+              </Fade>
+            } />
+            <Route path="/matières" element={
+              <Fade in={true} timeout={500}>
+                <div>
+                  <MenuContent activeMenu="Matières" data={data} />
+                </div>
+              </Fade>
+            } />
+            <Route path="/à-propos" element={
+              <Fade in={true} timeout={500}>
+                <div>
+                  <MenuContent activeMenu="À propos" data={data} />
+                </div>
+              </Fade>
+            } />
+          </Routes>
         </main>
 
         <Footer year={annee} prenom="chaimae" nom="haddaji" />
