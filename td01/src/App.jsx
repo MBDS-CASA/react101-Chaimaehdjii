@@ -83,15 +83,15 @@ function App() {
         <img src={profilePhoto} alt="Profile" className="profile-photo" />
         <Header />
         <main className="main-content">
+          {/* Texte de TD02 - toujours visible */}
+          <p>
+            Bonjour, on est le {jour}, {moisTexte}, {annee} et il est {heure}:{minute}:{seconde}
+          </p>
+
           {activeMenu ? (
             <MenuContent activeMenu={activeMenu} data={data} />
           ) : (
             <>
-              {/* Texte de TD02 */}
-              <p>
-                Bonjour, on est le {jour}, {moisTexte}, {annee} et il est {heure}:{minute}:{seconde}
-              </p>
-
               {/* Note aléatoire */}
               <h2>Note aléatoire :</h2>
               <NoteDetail note={note} />
