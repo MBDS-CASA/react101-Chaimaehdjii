@@ -171,10 +171,32 @@ button:hover {
   transform: translateX(5px);
   box-shadow: 0 4px 15px rgba(155, 89, 182, 0.8);
 }
+/* Main content styling */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling */
 .new-note-btn {
   margin-top: 20px;
-  background: #8e44ad;
+  background: linear-gradient(45deg, #8e44ad, #9b59b6);
   color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.new-note-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+}
   border: none;
   padding: 0.7em 1.5em;
   border-radius: 50px;

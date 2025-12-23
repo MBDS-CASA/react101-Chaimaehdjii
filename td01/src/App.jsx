@@ -9,6 +9,7 @@ import data from './data/data.json';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import Fade from '@mui/material/Fade';
 
 function App() {
   const [note, setNote] = useState(null);
@@ -89,16 +90,22 @@ function App() {
           </p>
 
           {activeMenu ? (
-            <MenuContent activeMenu={activeMenu} data={data} />
+            <Fade in={!!activeMenu} timeout={500}>
+              <div>
+                <MenuContent activeMenu={activeMenu} data={data} />
+              </div>
+            </Fade>
           ) : (
-            <>
-              {/* Note aléatoire */}
-              <h2>Note aléatoire :</h2>
-              <NoteDetail note={note} />
-              <button onClick={generateRandomNote} className="new-note-btn">
-                Nouvelle note
-              </button>
-            </>
+            <Fade in={!activeMenu} timeout={500}>
+              <div>
+                {/* Note aléatoire */}
+                <h2>Note aléatoire :</h2>
+                <NoteDetail note={note} />
+                <button onClick={generateRandomNote} className="new-note-btn">
+                  Nouvelle note
+                </button>
+              </div>
+            </Fade>
           )}
         </main>
 
