@@ -9,7 +9,6 @@ import data from './data/data.json';
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Fade from '@mui/material/Fade';
 import { Routes, Route, Link } from 'react-router-dom';
 
 function App() {
@@ -87,44 +86,34 @@ function App() {
 
           <Routes>
             <Route path="/" element={
-              <Fade in={true} timeout={500}>
-                <div>
-                  {/* Note aléatoire */}
-                  <h2>Note aléatoire :</h2>
-                  <NoteDetail note={note} />
-                  <button onClick={generateRandomNote} className="new-note-btn">
-                    Nouvelle note
-                  </button>
-                </div>
-              </Fade>
+              <div>
+                {/* Note aléatoire */}
+                <h2>Note aléatoire :</h2>
+                <NoteDetail note={note} />
+                <button onClick={generateRandomNote} className="new-note-btn">
+                  Nouvelle note
+                </button>
+              </div>
             } />
             <Route path="/notes" element={
-              <Fade in={true} timeout={500}>
-                <div>
-                  <MenuContent activeMenu="Notes" data={data} />
-                </div>
-              </Fade>
+              <div>
+                <MenuContent activeMenu="Notes" data={data} />
+              </div>
             } />
             <Route path="/étudiants" element={
-              <Fade in={true} timeout={500}>
-                <div>
-                  <MenuContent activeMenu="Étudiants" data={data} />
-                </div>
-              </Fade>
+              <div>
+                <MenuContent activeMenu="Étudiants" data={data} />
+              </div>
             } />
             <Route path="/matières" element={
-              <Fade in={true} timeout={500}>
-                <div>
-                  <MenuContent activeMenu="Matières" data={data} />
-                </div>
-              </Fade>
+              <div>
+                <MenuContent activeMenu="Matières" data={data} />
+              </div>
             } />
             <Route path="/à-propos" element={
-              <Fade in={true} timeout={500}>
-                <div>
-                  <MenuContent activeMenu="À propos" data={data} />
-                </div>
-              </Fade>
+              <div>
+                <MenuContent activeMenu="À propos" data={data} />
+              </div>
             } />
           </Routes>
         </main>

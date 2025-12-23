@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, TableSortLabel, TextField, TablePagination } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, TableSortLabel, TextField, TablePagination, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
 function MenuContent({ activeMenu, data }) {
   const [order, setOrder] = useState('asc');
@@ -7,6 +7,10 @@ function MenuContent({ activeMenu, data }) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [openStudent, setOpenStudent] = useState(false);
+  const [openCourse, setOpenCourse] = useState(false);
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -49,7 +53,10 @@ function MenuContent({ activeMenu, data }) {
 
   const paginatedData = sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+  const studentNotes = selectedStudent ? data.filter(item => item.student.firstname === selectedStudent.firstname && item.student.lastname === selectedStudent.lastname) : [];
+
   if (activeMenu === 'Notes') {
+
     return (
       <Box sx={{ p: 2 }}>
         <Typography variant="h5" gutterBottom>
@@ -107,7 +114,14 @@ function MenuContent({ activeMenu, data }) {
             </TableHead>
             <TableBody>
               {paginatedData.map((item) => (
-                <TableRow key={item.unique_id}>
+                <TableRow 
+                  key={item.unique_id}
+                  onClick={() => {
+                    setSelectedStudent(item.student);
+                    setOpenStudent(true);
+                  }}
+                  sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}
+                >
                   <TableCell>{item.student.firstname} {item.student.lastname}</TableCell>
                   <TableCell>{item.course}</TableCell>
                   <TableCell>{item.grade}</TableCell>
@@ -126,17 +140,55 @@ function MenuContent({ activeMenu, data }) {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </TableContainer>
+
+        <Dialog open={openStudent} onClose={() => setOpenStudent(false)} maxWidth="md" fullWidth>
+          <DialogTitle>Détails de {selectedStudent?.firstname} {selectedStudent?.lastname}</DialogTitle>
+          <DialogContent>
+            {selectedStudent && (
+              <>
+                <Typography>ID: {selectedStudent.id}</Typography>
+                <Typography variant="h6" sx={{ mt: 2 }}>Notes:</Typography>
+                <TableContainer component={Paper}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Matière</TableCell>
+                        <TableCell>Note</TableCell>
+                        <TableCell>Date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {studentNotes.map((note, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{note.course}</TableCell>
+                          <TableCell>{note.grade}</TableCell>
+                          <TableCell>{note.date}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenStudent(false)}>Fermer</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     );
   }
 
   // For other menus, keep simple
   if (activeMenu === 'Étudiants') {
+
     const uniqueStudents = [...new Set(data.map(item => `${item.student.firstname} ${item.student.lastname}`))].map(name => {
       const [firstname, lastname] = name.split(' ');
       const student = data.find(item => item.student.firstname === firstname && item.student.lastname === lastname);
-      return { name, id: student.student.id };
+      return { name, id: student.student.id, firstname, lastname };
     });
+
+    const studentNotes = selectedStudent ? data.filter(item => item.student.firstname === selectedStudent.firstname && item.student.lastname === selectedStudent.lastname) : [];
 
     return (
       <Box sx={{ p: 2 }}>
@@ -153,7 +205,14 @@ function MenuContent({ activeMenu, data }) {
             </TableHead>
             <TableBody>
               {uniqueStudents.map((student, index) => (
-                <TableRow key={index}>
+                <TableRow 
+                  key={index} 
+                  onClick={() => {
+                    setSelectedStudent(student);
+                    setOpenStudent(true);
+                  }}
+                  sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}
+                >
                   <TableCell>{student.name}</TableCell>
                   <TableCell>{student.id}</TableCell>
                 </TableRow>
@@ -161,12 +220,50 @@ function MenuContent({ activeMenu, data }) {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Dialog open={openStudent} onClose={() => setOpenStudent(false)} maxWidth="md" fullWidth>
+          <DialogTitle>Détails de {selectedStudent?.name}</DialogTitle>
+          <DialogContent>
+            {selectedStudent && (
+              <>
+                <Typography>ID: {selectedStudent.id}</Typography>
+                <Typography variant="h6" sx={{ mt: 2 }}>Notes:</Typography>
+                <TableContainer component={Paper}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Matière</TableCell>
+                        <TableCell>Note</TableCell>
+                        <TableCell>Date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {studentNotes.map((note, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{note.course}</TableCell>
+                          <TableCell>{note.grade}</TableCell>
+                          <TableCell>{note.date}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenStudent(false)}>Fermer</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     );
   }
 
   if (activeMenu === 'Matières') {
+
     const uniqueCourses = [...new Set(data.map(item => item.course))];
+
+    const courseDetails = selectedCourse ? data.filter(item => item.course === selectedCourse) : [];
 
     return (
       <Box sx={{ p: 2 }}>
@@ -182,13 +279,54 @@ function MenuContent({ activeMenu, data }) {
             </TableHead>
             <TableBody>
               {uniqueCourses.map((course, index) => (
-                <TableRow key={index}>
+                <TableRow 
+                  key={index} 
+                  onClick={() => {
+                    setSelectedCourse(course);
+                    setOpenCourse(true);
+                  }}
+                  sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}
+                >
                   <TableCell>{course}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Dialog open={openCourse} onClose={() => setOpenCourse(false)} maxWidth="md" fullWidth>
+          <DialogTitle>Détails de {selectedCourse}</DialogTitle>
+          <DialogContent>
+            {selectedCourse && (
+              <>
+                <Typography variant="h6" sx={{ mt: 2 }}>Notes:</Typography>
+                <TableContainer component={Paper}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Étudiant</TableCell>
+                        <TableCell>Note</TableCell>
+                        <TableCell>Date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {courseDetails.map((detail, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{detail.student.firstname} {detail.student.lastname}</TableCell>
+                          <TableCell>{detail.grade}</TableCell>
+                          <TableCell>{detail.date}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenCourse(false)}>Fermer</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     );
   }
